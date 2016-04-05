@@ -51,6 +51,7 @@ public class DBManager extends SQLiteOpenHelper {
     private static final String EPISODE_rating = "rating";
     private static final String EPISODE_episodeNo = "episodeNo";
     private static final String EPISODE_owner = "owner";
+    private static final String EPISODE_finished = "finished";
 
 
     public DBManager(Context ctx) {
@@ -70,7 +71,7 @@ public class DBManager extends SQLiteOpenHelper {
         String CREATE_EPISODES_TBL = "CREATE TABLE " + TBL_EPISODES + "(" +
                 EPISODE_imdb + " TEXT PRIMARY KEY, " + EPISODE_episodeNo + " INTEGER, " +
                 EPISODE_overview + " TEXT, " + EPISODE_rating + " REAL, " + EPISODE_title + " TEXT, " +
-                EPISODE_owner + " INTEGER)";
+                EPISODE_owner + " INTEGER, " + EPISODE_finished + " INTEGER)";
         String CREATE_POPULAR_TBL = "CREATE TABLE " + TBL_POPULAR + "(" +
                 SERIES_imdb + " TEXT PRIMARY KEY, " + SERIES_position + " INTEGER, " +
                 SERIES_genre + " TEXT, " + SERIES_overview + " TEXT, " + SERIES_rating + " REAL, " +
@@ -79,7 +80,6 @@ public class DBManager extends SQLiteOpenHelper {
                 SERIES_imdb + " TEXT PRIMARY KEY, " + SERIES_position + " INTEGER, " +
                 SERIES_genre + " TEXT, " + SERIES_overview + " TEXT, " + SERIES_rating + " REAL, " +
                 SERIES_title + " TEXT, " + SERIES_totalEp + " INTEGER, " + SERIES_year + " INTEGER)";
-
 
         db.execSQL(CREATE_SERIES_TBL);
         db.execSQL(CREATE_SEASONS_TBL);
@@ -185,6 +185,35 @@ public class DBManager extends SQLiteOpenHelper {
         return seasons;
     }
 
+    public ArrayList<Series> getEverything() {
+        ArrayList<Series> ser = getAllSeries();
+
+        for (Series a : ser) {
+            ArrayList<Season> sea = getSeasonsForOneSeries(a.getImdb());
+            for (Season b : sea) {
+                b.addAllEpisodes(getEpisodesForOneSeason(b.getTraktID()));
+            }
+            a.addAllSeasons(sea);
+            ser.add(a);
+        }
+        return ser;
+    }
+
+    public void saveEverything(ArrayList<Series> series) {
+        for (int i = 0; i < series.size(); ++i) {
+            Series s = series.get(i);
+            ArrayList<Season> sea = s.getSeasons();
+            for (Season b : sea) {
+                ArrayList<Episode> ep = b.getEpisodes();
+                for (Episode c : ep) {
+                    addEpisode(c, b.getTraktID());
+                }
+                addSeason(b, s.getImdb());
+            }
+            addSeries(s, i);
+        }
+    }
+
     public ArrayList<Season> getSeasonsForOneSeries(String imdb) {
         ArrayList<Season> seasons = new ArrayList<>();
 
@@ -220,6 +249,7 @@ public class DBManager extends SQLiteOpenHelper {
         cv.put(EPISODE_rating, e.getRating());
         cv.put(EPISODE_episodeNo, e.getEpisodeNo());
         cv.put(EPISODE_owner, owner);
+        cv.put(EPISODE_finished, (e.isFinished() ? 1 : 0));
 
         db.insert(TBL_EPISODES, null, cv);
         db.close();
@@ -246,7 +276,9 @@ public class DBManager extends SQLiteOpenHelper {
                 double rating = Double.parseDouble(cursor.getString(3));
                 String title = cursor.getString(4);
                 int owner = Integer.parseInt(cursor.getString(5));
+                boolean finished = Integer.parseInt(cursor.getString(6)) == 1;
                 Episode e = new Episode(owner, episodeNo, title, imdb, overview, rating);
+                e.setIsFinished(finished);
                 episodes.add(e);
             } while (cursor.moveToNext());
         }
@@ -261,10 +293,7 @@ public class DBManager extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM " + TBL_EPISODES + " WHERE " +
                 EPISODE_owner + " =? " + " ORDER BY " +
                 EPISODE_episodeNo + " ASC;", new String[] { String.valueOf(traktID) }) ;
-/*String CREATE_EPISODES_TBL = "CREATE TABLE " + TBL_EPISODES + "(" +
-                EPISODE_imdb + " TEXT PRIMARY KEY, " + EPISODE_episodeNo + " INTEGER, " +
-                EPISODE_overview + " TEXT, " + EPISODE_rating + " REAL, " + EPISODE_title + " TEXT, " +
-                EPISODE_owner + " INTEGER)";*/
+
         if (cursor.moveToFirst()) {
             do {
                 String imdb = cursor.getString(0);
@@ -273,7 +302,9 @@ public class DBManager extends SQLiteOpenHelper {
                 double rating = Double.parseDouble(cursor.getString(3));
                 String title = cursor.getString(4);
                 int owner = Integer.parseInt(cursor.getString(5));
+                boolean finished = Integer.parseInt(cursor.getString(6)) == 1;
                 Episode e = new Episode(owner, episodeNo, title, imdb, overview, rating);
+                e.setIsFinished(finished);
                 episodes.add(e);
             } while (cursor.moveToNext());
         }

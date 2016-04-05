@@ -167,6 +167,16 @@ public class MyData implements Serializable {
         }
     }
 
+    public void loadDataFromDB(Context ctx) {
+        DBManager db = new DBManager(ctx);
+        mySeries = db.getEverything();
+    }
+
+    public void saveDataToDB(Context ctx) {
+        DBManager db = new DBManager(ctx);
+        db.saveEverything(mySeries);
+    }
+
     public void saveData(File filesDir) {
         if (mySeries == null) return;
         try {

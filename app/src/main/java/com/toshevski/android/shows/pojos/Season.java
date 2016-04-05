@@ -47,6 +47,10 @@ public class Season implements Serializable {
         return "\t" + seasonNo + ". " + getTitle();
     }
 
+    public void addAllEpisodes(ArrayList<Episode> e) {
+        this.episodes = e;
+    }
+
     public String getTitle() {
         if (seasonNo == 0) return MySeries.ctx.getResources().getString(R.string.special_season);
         return MySeries.ctx.getResources().getString(R.string.season_name) + " " + seasonNo;

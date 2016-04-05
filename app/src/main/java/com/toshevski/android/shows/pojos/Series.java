@@ -65,6 +65,10 @@ public class Series implements Serializable {
         return refresh;
     }
 
+    public void addAllSeasons(ArrayList<Season> s) {
+        this.seasons = s;
+    }
+
     public Season addSeason(Season s) {
         for (int i = 0; i < seasons.size(); ++i) {
             if (s.getTraktID() == seasons.get(i).getTraktID()) {

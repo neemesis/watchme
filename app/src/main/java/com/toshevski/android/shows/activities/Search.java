@@ -52,14 +52,6 @@ public class Search extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-/*
-        ProgressBar pb = new ProgressBar(this, null, R.attr.progressBarStyle);
-        pb.setLayoutParams(new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 24));
-        pb.setProgress(65);
-
-        FrameLayout decorView = (FrameLayout) getWindow().getDecorView();
-        decorView.addView(pb);
-*/
         setContentView(R.layout.search_layout);
         series = new ArrayList<>();
 

@@ -51,6 +51,7 @@ public class MySeries extends AppCompatActivity {
     public static File filesDir;
     public static Context ctx;
     private int imageQuality;
+    //private DBManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,8 @@ public class MySeries extends AppCompatActivity {
             this.getSupportActionBar().setSubtitle(R.string.my_shows_sub_title);
 
 
+        //dbManager = new DBManager(this);
+
         filesDir = this.getFilesDir();
         if (check) {
             new NotifyForService(this);
@@ -73,6 +76,7 @@ public class MySeries extends AppCompatActivity {
         }
         myData.loadData(getFilesDir());
         myAdapter = new SeriesAdapter(this, myData.getList());
+        // myAdapter = new SeriesAdapter(this, dbManager.getAllSeries());
     }
 
     private void refreshData() {
@@ -158,7 +162,6 @@ public class MySeries extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         myData.saveData(getFilesDir());
-
     }
 
     @Override
@@ -178,7 +181,7 @@ public class MySeries extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.search:
-                Log.i("MySeries.oOIS:", "Pretisnen e plus.");
+                Log.i("MySeries.oOIS:", "Pretisnat e plus.");
             case R.id.sortRating:
                 myData.sortByRating();
                 break;
@@ -217,29 +220,18 @@ public class MySeries extends AppCompatActivity {
     public void writeToDB() {
         DBManager dbm = new DBManager(this);
         Log.i("MySer:", "Zapishuvanje vo baza!");
-        for (int i = 0; i < myData.howManySeries(); ++i) {
-            Series s = myData.get(i);
-            for (int j = 0; j < s.getSeasons().size(); ++j) {
-                Season se = s.getSeasons().get(j);
-                for (int k = 0; k < se.getEpisodes().size(); ++k) {
-                    Episode e = se.getOneEpisode(k);
-                    dbm.addEpisode(e, se.getTraktID());
-                }
-                dbm.addSeason(se, s.getImdb());
-            }
-            dbm.addSeries(s, i);
-        }
+        dbm.saveEverything(myData.getList());
     }
     public void readFromDB() {
         DBManager dbm = new DBManager(this);
         Log.i("MySer:", "Chitanje od baza!");
-        ArrayList<Series> ser = dbm.getAllSeries();
+        ArrayList<Series> ser = dbm.getEverything();
         for (Series a : ser) {
             Log.i("A:", a.toString());
-            ArrayList<Season> sea = dbm.getSeasonsForOneSeries(a.getImdb());
+            ArrayList<Season> sea = a.getSeasons();
             for (Season b : sea) {
                 Log.i("B:", b.toString());
-                ArrayList<Episode> ep = dbm.getEpisodesForOneSeason(b.getTraktID());
+                ArrayList<Episode> ep = b.getEpisodes();
                 for (Episode c : ep) {
                     Log.i("C:", c.toString());
                 }
