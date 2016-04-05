@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/search"
+        android:title="@string/add_title"
+        app:showAsAction="always"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        android:icon="@drawable/ic_add_white_48dp"/>
+
+    <item
+        android:id="@+id/refresh"
+        android:icon="@drawable/ic_autorenew_white_24dp"
+        app:showAsAction="ifRoom"
+        android:title="@string/refresh" />
+
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings" />
+
+    <item
+        android:id="@+id/sortRating"
+        android:title="@string/sort_rating"/>
+
+    <item
+        android:id="@+id/sortUnfinished"
+        android:title="@string/sort_unfinished"/>
+
+    <item
+        android:id="@+id/sortYear"
+        android:title="@string/sort_year"/>
+
+    <item
+        android:id="@+id/newEpisodeService"
+        android:title="NewEpService" />
+
+    <item
+        android:id="@+id/newEpisodeServiceStop"
+        android:title="NewEpServiceStop" />
+
+    <item
+        android:id="@+id/deleteDB"
+        android:title="DeleteDB"
+        />
+    <item
+        android:id="@+id/writeToDB"
+        android:title="WriteToDB"/>
+    <item
+        android:id="@+id/readFromDB"
+        android:title="ReadFromDB"/>
+
+
+</menu>

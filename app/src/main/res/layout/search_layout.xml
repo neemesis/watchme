@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="4dp" />
+
+    <ListView
+        android:layout_marginTop="@dimen/activity_top_margin"
+        android:id="@+id/searchList"
+        android:layout_width="fill_parent"
+        android:divider="@color/dividerColor"
+        android:dividerHeight="@dimen/list_view_divider"
+        android:layout_height="wrap_content">
+
+    </ListView>
+
+    <TextView
+        android:id="@+id/nothingFound"
+        android:visibility="invisible"
+        android:textSize="@dimen/first_time_use_text_size"
+        android:gravity="center"
+        android:text="@string/nothing_found"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+</LinearLayout>

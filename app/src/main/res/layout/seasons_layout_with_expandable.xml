@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_top_margin">
+
+    <ExpandableListView
+        android:id="@+id/seasonsListExpandable"
+        android:layout_width="match_parent"
+        android:childDivider="@color/dividerColor"
+        android:layout_height="match_parent"
+        android:divider="@color/dividerColor"
+        android:groupIndicator="@null"
+        android:dividerHeight="@dimen/list_view_divider">
+
+    </ExpandableListView>
+
+</LinearLayout>

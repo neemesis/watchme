@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="@string/set_all_finished"
+        android:id="@+id/setAllFinished" />
+    <item
+        android:title="@string/delete"
+        android:id="@+id/contextDelete" />
+    <item
+        android:title="@string/move_up"
+        android:id="@+id/moveUp" />
+    <item
+        android:title="@string/move_down"
+        android:id="@+id/moveDown" />
+</menu>

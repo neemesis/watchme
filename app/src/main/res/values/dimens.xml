@@ -1,0 +1,15 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">5dp</dimen>
+    <dimen name="activity_top_margin">5dp</dimen>
+    <dimen name="status_top_margin">3dp</dimen>
+    <dimen name="activity_vertical_margin">5dp</dimen>
+    <dimen name="episode_number_width">15dp</dimen>
+    <dimen name="episode_margin">30dp</dimen>
+    <dimen name="title_size">21sp</dimen>
+    <dimen name="other_text_size">12sp</dimen>
+    <dimen name="action_bar_text_size">10sp</dimen>
+    <dimen name="first_time_use_text_size">28sp</dimen>
+    <dimen name="list_view_divider">8dp</dimen>
+    <dimen name="first_time_use_padding">100dp</dimen>
+</resources>
